@@ -1,0 +1,83 @@
+import TabMainLayout from "@/components/layout/TabMainLayout";
+import MovieCard from "@/components/MovieCard";
+import SearchBar from "@/components/SearchBar";
+import { icons } from "@/constants/icons";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useMovies } from "@/hooks/useMovies";
+import React, { useState } from "react";
+import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+
+const Search = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
+  const { data, isLoading, error }: any = useMovies({
+    query: debouncedSearchQuery,
+  });
+
+  console.log({ error, data });
+
+  return (
+    <TabMainLayout>
+      <FlatList
+        data={data?.results}
+        renderItem={({ item }) => <MovieCard {...item} />}
+        keyExtractor={(item) => item?.id?.toString()}
+        numColumns={3}
+        className="px-5"
+        columnWrapperStyle={{
+          justifyContent: "flex-start",
+          gap: 16,
+          marginVertical: 10,
+        }}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        ListHeaderComponent={
+          <>
+            <View className="w-full flex-row justify-center mt-20">
+              <Image source={icons.logo} className="w-12 h-10" />
+            </View>
+            <View className="my-5">
+              <SearchBar
+                placeholder="Search movies..."
+                value={searchQuery}
+                onChangeText={(text: string) => setSearchQuery(text)}
+              />
+            </View>
+            {isLoading && (
+              <ActivityIndicator
+                size="large"
+                color="#0000ff"
+                className="my-3"
+              />
+            )}
+            {error && (
+              <Text className="text-red-500 px-5 my-3">
+                Error: {error?.message}
+              </Text>
+            )}
+            {!isLoading &&
+              !error &&
+              searchQuery?.trim() &&
+              data?.results?.length > 0 && (
+                <Text className="text-xl text-white font-bold">
+                  Search Results for{" "}
+                  <Text className="text-accent">{searchQuery}</Text>
+                </Text>
+              )}
+          </>
+        }
+        ListEmptyComponent={
+          !isLoading && !error ? (
+            <View className="flex-1 flex-row justify-center mt-10 px-5">
+              <Text className="text-light-300">
+                {searchQuery?.trim() ? "No movies found" : "Search for a movie"}
+              </Text>
+            </View>
+          ) : null
+        }
+      />
+    </TabMainLayout>
+  );
+};
+
+export default Search;
