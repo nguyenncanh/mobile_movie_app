@@ -4,7 +4,8 @@ import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useMovies } from "@/hooks/useMovies";
-import React, { useState } from "react";
+import { updateSearchCount } from "@/services/appwrite";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 const Search = () => {
@@ -15,7 +16,12 @@ const Search = () => {
     query: debouncedSearchQuery,
   });
 
-  console.log({ error, data });
+  useEffect(() => {
+    if (searchQuery && data?.results?.length > 0 && data?.results?.[0]) {
+      updateSearchCount(searchQuery, data?.results?.[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.results]);
 
   return (
     <TabMainLayout>

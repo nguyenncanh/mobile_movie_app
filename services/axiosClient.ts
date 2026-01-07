@@ -28,7 +28,7 @@ axiosClient.interceptors.response.use(
       await storage.removeToken();
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error?.message);
   }
 );
 
@@ -36,6 +36,7 @@ export const get = async <T>(
   endpoint: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {
+  console.log("ENDPOINT: ", endpoint);
   const res = await axiosClient.get<T>(endpoint, config);
   return res.data;
 };
@@ -45,6 +46,7 @@ export const post = async <T>(
   body: any,
   config?: AxiosRequestConfig
 ): Promise<T> => {
+  console.log("ENDPOINT: ", endpoint);
   const res = await axiosClient.post<T>(endpoint, body, config);
   return res.data;
 };
