@@ -1,6 +1,5 @@
 import { icons } from "@/constants/icons";
 import { Link } from "expo-router";
-import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 const MovieCard = ({
@@ -25,7 +24,6 @@ const MovieCard = ({
         <Text className="text-white text-sm font-bold mt-2" numberOfLines={1}>
           {title}
         </Text>
-
         <View className="flex-row items-center justify-between">
           <Text className="text-light-300 text-xs font-medium mt-2">
             {release_date?.split("-")?.[0]}
@@ -36,8 +34,6 @@ const MovieCard = ({
               {Math.round(vote_average / 2)}
             </Text>
           </View>
-
-          {/* <Text className="text-light-300 text-xs font-medium mt-1">Movie</Text> */}
         </View>
       </TouchableOpacity>
     </Link>
@@ -45,5 +41,3 @@ const MovieCard = ({
 };
 
 export default MovieCard;
-
-// const styles = StyleSheet.create({});

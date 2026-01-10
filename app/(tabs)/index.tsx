@@ -1,19 +1,15 @@
-import TabMainLayout from "@/components/layout/TabMainLayout";
-import MovieCard from "@/components/MovieCard";
-import SearchBar from "@/components/SearchBar";
-import TrendingCard from "@/components/TrendingCard";
-import { icons } from "@/constants/icons";
-import { useMovies } from "@/hooks/useMovies";
-import { useTrendingMovies } from "@/hooks/useTrendingMovies";
-import { useRouter } from "expo-router";
 import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+  Loading,
+  MovieCard,
+  SearchBar,
+  TabMainLayout,
+  TrendingCard,
+} from "@/components";
+import { icons } from "@/constants/icons";
+import { useMovies, useTrendingMovies } from "@/hooks";
+import { UseQueryResult } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
+import { FlatList, Image, ScrollView, Text, View } from "react-native";
 
 export default function Index() {
   const router = useRouter();
@@ -22,13 +18,13 @@ export default function Index() {
     data: trendingMoviesData,
     isLoading: trendingMoviesLoading,
     error: trendingMoviesError,
-  }: any = useTrendingMovies();
+  }: UseQueryResult<TrendingMovie[] | undefined, Error> = useTrendingMovies();
 
   const {
     data: moviesData,
     isLoading: moviesLoading,
     error: moviesError,
-  }: any = useMovies({
+  }: UseQueryResult<{ results: Movie[] }, Error> = useMovies({
     query: "",
   });
 
@@ -37,15 +33,11 @@ export default function Index() {
       <ScrollView
         className="flex-1 px-5"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
+        contentContainerStyle={{ minHeight: "100%" }}
       >
         <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
         {moviesLoading || trendingMoviesLoading ? (
-          <ActivityIndicator
-            size="large"
-            color={"#0000ff"}
-            className="mt-10 self-center"
-          />
+          <Loading />
         ) : moviesError || trendingMoviesError ? (
           <Text>
             Movies Error: {moviesError?.message || trendingMoviesError?.message}
@@ -88,7 +80,7 @@ export default function Index() {
                   gap: 16,
                   marginVertical: 12,
                 }}
-                contentContainerStyle={{ paddingBottom: 100 }}
+                // contentContainerStyle={{ paddingBottom: 100 }}
                 scrollEnabled={false}
               />
             </View>

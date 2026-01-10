@@ -1,12 +1,9 @@
-import TabMainLayout from "@/components/layout/TabMainLayout";
-import MovieCard from "@/components/MovieCard";
-import SearchBar from "@/components/SearchBar";
+import { Loading, MovieCard, SearchBar, TabMainLayout } from "@/components";
 import { icons } from "@/constants/icons";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useMovies } from "@/hooks/useMovies";
+import { useDebounce, useMovies } from "@/hooks";
 import { updateSearchCount } from "@/services/appwrite";
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, Image, Text, View } from "react-native";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,12 +31,11 @@ const Search = () => {
         columnWrapperStyle={{
           justifyContent: "flex-start",
           gap: 16,
-          marginVertical: 10,
+          marginVertical: 12,
         }}
-        contentContainerStyle={{ paddingBottom: 100 }}
         ListHeaderComponent={
           <>
-            <View className="w-full flex-row justify-center mt-20">
+            <View className="w-full flex-row justify-center mt-20 mb-5">
               <Image source={icons.logo} className="w-12 h-10" />
             </View>
             <View className="my-5">
@@ -49,13 +45,7 @@ const Search = () => {
                 onChangeText={(text: string) => setSearchQuery(text)}
               />
             </View>
-            {isLoading && (
-              <ActivityIndicator
-                size="large"
-                color="#0000ff"
-                className="my-3"
-              />
-            )}
+            {isLoading && <Loading />}
             {error && (
               <Text className="text-red-500 px-5 my-3">
                 Error: {error?.message}

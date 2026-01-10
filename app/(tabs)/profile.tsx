@@ -1,11 +1,13 @@
-import React from "react";
+import { TabMainLayout } from "@/components";
 import { Text, View } from "react-native";
 
 const Profile = () => {
   return (
-    <View>
-      <Text>Profile</Text>
-    </View>
+    <TabMainLayout>
+      <View className="flex flex-1 items-center justify-center">
+        <Text className="text-white">Profile</Text>
+      </View>
+    </TabMainLayout>
   );
 };
 

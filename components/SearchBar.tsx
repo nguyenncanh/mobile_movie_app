@@ -1,5 +1,4 @@
 import { icons } from "@/constants/icons";
-import React from "react";
 import { Image, TextInput, View } from "react-native";
 
 interface Props {
@@ -31,5 +30,3 @@ const SearchBar = ({ onPress, placeholder, value, onChangeText }: Props) => {
 };
 
 export default SearchBar;
-
-// const styles = StyleSheet.create({});

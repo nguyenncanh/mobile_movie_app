@@ -7,7 +7,7 @@ interface Props {
 
 export default function TabMainLayout({ children }: Props) {
   return (
-    <View className="flex-1 bg-primary">
+    <View className="flex-1 bg-primary pb-[100px]">
       <Image source={images.bg} className="absolute w-full z-0" />
       {children}
     </View>

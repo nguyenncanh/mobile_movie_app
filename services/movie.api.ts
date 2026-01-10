@@ -3,7 +3,7 @@ import { get } from "./axiosClient";
 export const fetchMovies = (
   params?: any,
   signal?: AbortSignal
-): Promise<Movie[]> => {
+): Promise<{ results: Movie[] }> => {
   const endpoint = params?.query
     ? "/search/movie"
     : "/discover/movie?sort_by=popularity.desc";
